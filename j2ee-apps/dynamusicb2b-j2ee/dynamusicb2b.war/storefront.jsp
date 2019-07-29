@@ -1,4 +1,6 @@
 <%@ taglib uri="/dspTaglib" prefix="dsp" %>
+<%@ page isELIgnored="false" %>
+<dsp:importbean bean="/atg/dynamo/droplet/ForEach"/>
 <dsp:page>
 
     <!-- ATG Training -->
@@ -42,7 +44,16 @@
 
                             <%-- Chapter 3, Exercise 7 --%>
                             <%-- Iterate over all root categories here --%>
-
+                            <dsp:droplet name="ForEach">
+                                <dsp:param name="array" bean="Profile.catalog.allRootCategories"/>
+                                <dsp:oparam name="output">
+                                    <dsp:getvalueof var="templateURL" param="element.template.url"/>
+                                    <dsp:a href="${templateURL}">
+                                        <dsp:param name="id" param="element.repositoryId"/>
+                                        <dsp:valueof param="element.displayName"/>
+                                    </dsp:a>
+                                </dsp:oparam>
+                            </dsp:droplet>
 
                             <%-- End root categories iteration --%>
 
