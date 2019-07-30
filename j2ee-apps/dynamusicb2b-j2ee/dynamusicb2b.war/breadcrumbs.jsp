@@ -1,7 +1,9 @@
 <%@ taglib uri="/dspTaglib" prefix="dsp" %>
+<%@ page isELIgnored="false" %>
+<dsp:importbean bean="/atg/dynamo/droplet/ForEach"/>
+<dsp:importbean bean="/atg/commerce/catalog/CatalogNavHistory"/>
 <dsp:page>
 
-    <dsp:importbean bean="/atg/commerce/catalog/CatalogNavHistory"/>
 
     <!-- ATG Training -->
     <!-- Creating Commerce Applications -->
@@ -19,6 +21,20 @@
 
             <%-- Chapter 4, Exercise 2 --%>
             <%-- Insert ForEach droplet to iterate through the navHistory --%>
+
+        <dsp:droplet name="ForEach">
+            <dsp:param name="array" bean="CatalogNavHistory.navHistory"/>
+            <dsp:oparam name="output">
+                <dsp:getvalueof var="templateURL" param="element.template.url"/>
+                <dsp:a href="${templateURL}">
+                    <dsp:param name="itemId" param="element.repositoryId"/>
+                    <dsp:param name="navAction" value="pop"/>
+                    <dsp:param name="navCount" bean="CatalogNavHistory.navCount"/>
+                    <dsp:valueof param="element.displayName"/>
+                </dsp:a>
+                <dsp:valueof value=" -> "/>
+            </dsp:oparam>
+        </dsp:droplet>
 
 
     </font>

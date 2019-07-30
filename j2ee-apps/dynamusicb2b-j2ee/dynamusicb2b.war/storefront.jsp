@@ -1,6 +1,7 @@
 <%@ taglib uri="/dspTaglib" prefix="dsp" %>
 <%@ page isELIgnored="false" %>
 <dsp:importbean bean="/atg/dynamo/droplet/ForEach"/>
+<dsp:importbean bean="/atg/commerce/catalog/CatalogNavHistory"/>
 <dsp:page>
 
     <!-- ATG Training -->
@@ -50,6 +51,8 @@
                                     <dsp:getvalueof var="templateURL" param="element.template.url"/>
                                     <dsp:a href="${templateURL}">
                                         <dsp:param name="id" param="element.repositoryId"/>
+                                        <dsp:param name="navAction" value="jump"/>
+                                        <dsp:param name="navCount" bean="CatalogNavHistory.navCount"/>
                                         <dsp:valueof param="element.displayName"/>
                                     </dsp:a>
                                 </dsp:oparam>

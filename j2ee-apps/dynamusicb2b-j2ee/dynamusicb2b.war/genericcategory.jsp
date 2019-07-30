@@ -2,6 +2,8 @@
 <%@ page isELIgnored="false" %>
 <dsp:importbean bean="/atg/commerce/catalog/CategoryLookup"/>
 <dsp:importbean bean="/atg/dynamo/droplet/ForEach"/>
+<dsp:importbean bean="/atg/commerce/catalog/CategoryBrowsed"/>
+<dsp:importbean bean="/atg/commerce/catalog/CatalogNavHistoryCollector"/>
 <dsp:page>
 
     <!-- ATG Training -->
@@ -12,7 +14,6 @@
     <!-- this is a holder page for the chapter 3, Exercise 3 -->
     <!-- for creating a page to display a category -->
 
-    <!-- Title: DynamusicB2C Category Page -->
 
 
     <HTML>
@@ -38,6 +39,13 @@
                     <dsp:droplet name="CategoryLookup">
                         <dsp:param name="id" param="itemId"/>
                         <dsp:oparam name="output">
+                            <dsp:droplet name="CatalogNavHistoryCollector">
+                                <dsp:param name="item" param="element"/>
+                                <dsp:param name="navAction" param="navAction"/>
+                                <dsp:param name="navCount" param="navCount"/>
+                            </dsp:droplet>
+                            <dsp:include page="breadcrumbs.jsp"/>
+
                             <h4>Categories</h4>
                             <dsp:droplet name="ForEach">
                                 <dsp:param name="array" param="element.childCategories"/>
@@ -45,6 +53,8 @@
                                     <dsp:getvalueof var="templateURL" param="element.template.url"/>
                                     <dsp:a href="${templateURL}">
                                         <dsp:param name="itemId" param="element.repositoryId"/>
+                                        <dsp:param name="navCount" param="navCount"/>
+                                        <dsp:param name="navAction" value="push"/>
                                         <dsp:valueof param="element.displayName"/>
                                     </dsp:a>
                                     <br>
@@ -57,10 +67,16 @@
                                     <dsp:getvalueof var="templateURL" param="element.template.url"/>
                                     <dsp:a href="${templateURL}">
                                         <dsp:param name="itemId" param="element.repositoryId"/>
+                                        <dsp:param name="navCount" param="navCount"/>
+                                        <dsp:param name="navAction" value="push"/>
                                         <dsp:valueof param="element.displayName"/>
                                     </dsp:a>
                                     <br>
                                 </dsp:oparam>
+                            </dsp:droplet>
+
+                            <dsp:droplet name="CategoryBrowsed">
+                                <dsp:param name="eventobject" param="element"/>
                             </dsp:droplet>
                         </dsp:oparam>
                     </dsp:droplet>

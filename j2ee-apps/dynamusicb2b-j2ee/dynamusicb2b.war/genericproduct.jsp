@@ -1,6 +1,8 @@
 <%@ taglib uri="/dspTaglib" prefix="dsp" %>
 <%@ page isELIgnored="false" %>
 <dsp:importbean bean="/atg/commerce/catalog/ProductLookup"/>
+<dsp:importbean bean="/atg/commerce/catalog/ProductBrowsed"/>
+<dsp:importbean bean="/atg/commerce/catalog/CatalogNavHistoryCollector"/>
 <dsp:page>
 
     <!-- ATG Training -->
@@ -11,7 +13,6 @@
     <!-- this is a holder page for the chapter 3, Exercise 4 -->
     <!-- for creating a page to display a product -->
 
-    <!-- Title: DynamusicB2C Product Page -->
 
     <%-- Declare your "id" parameter here --%>
     <DECLAREPARAM NAME="id" CLASS="java.lang.String" DESCRIPTION="Repository ID">
@@ -40,6 +41,13 @@
                     <dsp:droplet name="ProductLookup">
                         <dsp:param name="id" param="itemId"/>
                         <dsp:oparam name="output">
+                            <dsp:droplet name="CatalogNavHistoryCollector">
+                                <dsp:param name="item" param="element"/>
+                                <dsp:param name="navAction" param="navAction"/>
+                                <dsp:param name="navCount" param="navCount"/>
+                            </dsp:droplet>
+                            <dsp:include page="breadcrumbs.jsp"/>
+
                             <h3><dsp:valueof param="element.displayName"/></h3>
                             <%-- TODO: Problem with leading slash in image path (some paths have it, others don't. Why?) --%>
                             <img src="<dsp:valueof param="element.smallImage.path"/>"/><br>
@@ -47,6 +55,10 @@
                             <dsp:include page="skulist.jsp">
                                 <dsp:param name="product" param="element"/>
                             </dsp:include>
+                            
+                            <dsp:droplet name="ProductBrowsed">
+                                <dsp:param name="eventobject" param="element"/>
+                            </dsp:droplet>
                         </dsp:oparam>
                     </dsp:droplet>
                 </font>
