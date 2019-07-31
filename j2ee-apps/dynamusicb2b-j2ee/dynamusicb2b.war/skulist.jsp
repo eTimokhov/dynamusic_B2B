@@ -26,18 +26,59 @@
         <dsp:param name="array" param="product.childSKUs"/>
 
         <dsp:oparam name="outputStart">
-            <p>Skulist:<ul>
+            <p>Skulist:</p>
+            <ul>
         </dsp:oparam>
         <dsp:oparam name="outputEnd">
             </ul>
         </dsp:oparam>
         <dsp:oparam name="output">
             <dsp:param name="sku" param="element"/>
-            <li><dsp:valueof param="sku.displayName"/>,
+            <li>
+                <dsp:valueof param="sku.displayName"/>
 
-            <%-- Chapter 6, Exercise 1, Part 3 --%>
-            <%-- Insert the PriceDroplet and ComplexPriceDroplet here --%>
-
+                <%-- Chapter 6, Exercise 1, Part 3 --%>
+                <%-- Insert the PriceDroplet and ComplexPriceDroplet here --%>
+                <dsp:droplet name="PriceDroplet">
+                    <dsp:param name="sku" param="sku"/>
+                    <dsp:param name="product" param="product"/>
+                    <dsp:oparam name="output">
+                        <dsp:droplet name="Switch">
+                            <dsp:param name="value" param="price.pricingScheme"/>
+                            <dsp:oparam name="listPrice">
+                                <dsp:include page="discountprice.jsp">
+                                    <dsp:param name="product" param="product"/>
+                                    <dsp:param name="sku" param="sku"/>
+                                </dsp:include>
+                            </dsp:oparam>
+                            <dsp:oparam name="bulkPrice">
+                                <dsp:droplet name="ComplexPriceDroplet">
+                                    <dsp:param name="complexPrice" param="price.complexPrice"/>
+                                    <dsp:oparam name="output">
+                                        <dsp:droplet name="For">
+                                            <dsp:param name="howMany" param="numLevels"/>
+                                            <dsp:oparam name="outputStart">
+                                                <ul>
+                                            </dsp:oparam>
+                                            <dsp:oparam name="outputEnd">
+                                                </ul>
+                                            </dsp:oparam>
+                                            <dsp:oparam name="output">
+                                                <li>
+                                                    <dsp:valueof param="levelMinimums[param:index]"/>
+                                                    -
+                                                    <dsp:valueof param="levelMaximums[param:index]">or over</dsp:valueof>
+                                                    <b><dsp:valueof converter="currency" param="prices[param:index]"/></b>
+                                                </li>
+                                            </dsp:oparam>
+                                        </dsp:droplet>
+                                    </dsp:oparam>
+                                </dsp:droplet>
+                            </dsp:oparam>
+                        </dsp:droplet>
+                    </dsp:oparam>
+                </dsp:droplet>
+            </li>
 
             <%-- Chapter 7, Exercise 1 --%>
             <%-- Insert Add to Cart button here --%>
