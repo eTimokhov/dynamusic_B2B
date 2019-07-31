@@ -14,10 +14,10 @@
         <dsp:param name="item" param="sku"/>
         <dsp:param name="product" param="product"/>
         <dsp:oparam name="output">
-            <dsp:param name="pricedItem" param="element"/>
-            <br>
-            <b>*Discount Price:</b> <dsp:valueof converter="currency"
-                                                 param="pricedItem.priceInfo.amount">no price</dsp:valueof>
+            Base price: <dsp:valueof converter="currency" param="element.priceInfo.ListPrice"/>,
+            <b>
+                Discounted price: <dsp:valueof converter="currency" param="element.priceInfo.amount"/>
+            </b>
         </dsp:oparam>
     </dsp:droplet>
 
