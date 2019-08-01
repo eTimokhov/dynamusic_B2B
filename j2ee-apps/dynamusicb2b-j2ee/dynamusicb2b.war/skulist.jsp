@@ -82,6 +82,11 @@
 
             <%-- Chapter 7, Exercise 1 --%>
             <%-- Insert Add to Cart button here --%>
+            <dsp:include page="addtocart.jsp">
+                <dsp:param name="skuId" param="sku.repositoryId"/>
+                <dsp:param name="productId" param="product.repositoryId"/>
+            </dsp:include>
+
 
 
             <%-- Chapter 13, Exercise 2: Inventory Lookup --%>
