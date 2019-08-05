@@ -8,6 +8,8 @@
     <dsp:importbean bean="/atg/dynamo/droplet/ForEach"/>
     <dsp:importbean bean="/atg/dynamo/droplet/ErrorMessageForEach"/>
     <dsp:importbean bean="/atg/commerce/order/purchase/RepriceOrderDroplet"/>
+    <dsp:importbean bean="/atg/dynamo/droplet/IsEmpty"/>
+    <dsp:importbean bean="/atg/commerce/order/purchase/ShippingGroupContainerService"/>
 
     <!-- ATG Training -->
     <!-- Creating Commerce Applications Part I -->
@@ -34,9 +36,9 @@
 
                         <%-- Chapter 7, Exercise 4, Step 3: Reprice the order when the page is loaded --%>
 
-                            <dsp:droplet name="RepriceOrderDroplet">
-                                <dsp:param name="pricingOp" value="ORDER_TOTAL"/>
-                            </dsp:droplet>
+                    <dsp:droplet name="RepriceOrderDroplet">
+                        <dsp:param name="pricingOp" value="ORDER_TOTAL"/>
+                    </dsp:droplet>
 
                         <%-- Chapter 7, Exercise 3, Step 1: Error Handling --%>
 
@@ -86,12 +88,32 @@
 
 
                             <%-- Chapter 9, Exercise 1, Step 4: Test ShippingGroup Address --%>
+                        <dsp:droplet name="IsEmpty">
+                            <dsp:param name="value"
+                                       bean="ShoppingCart.current.ShippingGroups[0].shippingAddress.address1"/>
+                            <dsp:oparam name="true">
+                                <dsp:input bean="CartModifierFormHandler.moveToPurchaseInfoSuccessURL"
+                                           type="hidden" value="ship_to_multiple.jsp?init=true"/>
+                            </dsp:oparam>
+                            <dsp:oparam name="false">
+                                <dsp:droplet name="IsEmpty">
+                                    <dsp:param name="value" bean="ShippingGroupContainerService.shippingGroupMap"/>
+                                    <dsp:oparam name="true">
+                                        <dsp:input bean="CartModifierFormHandler.moveToPurchaseInfoSuccessURL"
+                                                   type="hidden" value="ship_to_multiple.jsp?init=true&fromorder=true"/>
+                                    </dsp:oparam>
+                                    <dsp:oparam name="false">
+                                        <dsp:input bean="CartModifierFormHandler.moveToPurchaseInfoSuccessURL"
+                                                   type="hidden" value="ship_to_multiple.jsp?init=false"/>
+                                    </dsp:oparam>
+                                </dsp:droplet>
+                            </dsp:oparam>
+                        </dsp:droplet>
 
 
                             <%-- Chapter 7, Exercise 3, Step 2: Add Checkout Button --%>
-                        <dsp:input type="hidden" bean="CartModifierFormHandler.moveToPurchaseInfoSuccessURL"
-                                   value="purchaseinfo.jsp"/>
-                        <dsp:input type="submit" bean="CartModifierFormHandler.moveToPurchaseInfoByCommerceId" value="Checkout"/>
+                        <dsp:input type="submit" bean="CartModifierFormHandler.moveToPurchaseInfoByCommerceId"
+                                   value="Checkout"/>
                     </font>
                 </dsp:form>
                 <br><br>

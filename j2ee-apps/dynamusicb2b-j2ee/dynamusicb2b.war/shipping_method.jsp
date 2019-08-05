@@ -117,6 +117,23 @@
                                                     The AvailableShippingMethods servlet bean permits the user to select a
                                                     shipping method that is applied to the current ShippingGroup.
                                                     --%>
+                                                <dsp:droplet name="AvailableShippingMethods">
+                                                    <dsp:param name="shippingGroup" bean="sGroup"/>
+                                                    <dsp:param name="pricingModels"
+                                                               bean="UserPricingModels.shippingPricingModels"/>
+                                                    <dsp:param name="profile" bean="Profile"/>
+                                                    <dsp:oparam name="output">
+                                                        <dsp:select bean="sGroup.shippingMethod">
+                                                            <dsp:droplet name="ForEach">
+                                                                <dsp:param name="array" param="availableShippingMethods"/>
+                                                                <dsp:oparam name="output">
+                                                                    <dsp:option paramvalue="element"/> <%-- ??? --%>
+                                                                    <dsp:valueof param="element"/>
+                                                                </dsp:oparam>
+                                                            </dsp:droplet>
+                                                        </dsp:select>
+                                                    </dsp:oparam>
+                                                </dsp:droplet>
 
 
                                             </td>
