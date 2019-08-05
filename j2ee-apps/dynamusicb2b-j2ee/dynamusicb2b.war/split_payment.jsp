@@ -39,86 +39,98 @@
                     <font color=cc0000><STRONG>
                         <UL>
                             <dsp:droplet name="ErrorMessageForEach">
-                            <dsp:param bean="PaymentGroupFormHandler.formExceptions" name="exceptions"/>
-                            <dsp:oparam name="output">
-                            <LI>
-                                    <dsp:valueof param="message"/>
+                                <dsp:param bean="PaymentGroupFormHandler.formExceptions" name="exceptions"/>
+                                <dsp:oparam name="output">
+                                    <LI>
+                                        <dsp:valueof param="message"/></LI>
                                 </dsp:oparam>
-                                </dsp:droplet>
+                            </dsp:droplet>
                         </UL>
                     </STRONG></font>
                     </dsp:oparam>
-                    </dsp:droplet>
-
-                    <dsp:droplet name="PaymentGroupDroplet">
-
-                    <dsp:oparam name="output">
-
-                    <!-- Set the listId property of the PaymentGroupFormHandler. -->
-
-
-                        <dsp:include page="payment_table_hdr.jsp" flush="true"></dsp:include>
-
-                    <dsp:droplet name="ForEach">
-
-                    <!-- Iterate over the currentList of OrderPaymentInfo objects -->
-
-
-                    <dsp:oparam name="output">
-                    <dsp:form formid="split" action="split_payment.jsp?init=true" method="post">
-
-        <tr valign=top>
-            <td><dsp:valueof converter="currency" param="element.amount"/></td>
-            <td>&nbsp;</td>
-
-
-            <td>$<!-- Input the split amount. -->
-
-            </td>
-
-            <td>&nbsp;</td>
-            <td>
-
-                <dsp:getvalueof id="payMethod" idtype="String" param="element.paymentMethod">
-                    <!-- Select the payment method. -->
-
-                    <%@ include file="payment_select_list.jspf" %>
-
-
-                </dsp:getvalueof>
-            </td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>
-                <!-- Preserve the listId. -->
-
-
-                <!-- Set the split payment success URL. -->
-
-
-                <!-- Submit the form to split payment infos. -->
-
-
             </td>
         </tr>
-        </dsp:form>
-        </dsp:oparam>
         </dsp:droplet>
-        <dsp:include page="payment_tbl_footer.jsp" flush="true"></dsp:include>
-        <br>
-        <dsp:form formid="save" action="split_payment.jsp?init=false" method="post">
 
-            <!-- Set the apply payment groups success URL. -->
+        <dsp:droplet name="PaymentGroupDroplet">
+
+            <dsp:oparam name="output">
+
+                <!-- Set the listId property of the PaymentGroupFormHandler. -->
+                <dsp:setvalue bean="PaymentGroupFormHandler.listId" paramvalue="order.id"/>
 
 
-            <!-- Submit the form to apply payment groups to order. -->
+                <dsp:include page="payment_table_hdr.jsp" flush="true"></dsp:include>
+
+                <dsp:droplet name="ForEach">
+
+                    <!-- Iterate over the currentList of OrderPaymentInfo objects -->
+                    <dsp:param name="array" bean="PaymentGroupFormHandler.currentList"/>
+
+                    <dsp:oparam name="output">
+                        <dsp:form formid="split" action="split_payment.jsp?init=true" method="post">
+
+                            <tr valign=top>
+                                <td><dsp:valueof converter="currency" param="element.amount"/></td>
+                                <td>&nbsp;</td>
 
 
-        </dsp:form>
-        </div> </td></tr></table>
-    </dsp:oparam>
-    </dsp:droplet>
+                                <td>$<!-- Input the split amount. -->
+                                    <dsp:input bean="PaymentGroupFormHandler.currentList[param:index].splitAmout"
+                                               size="6" type="text"/>
+                                </td>
+
+                                <td>&nbsp;</td>
+                                <td>
+
+                                    <dsp:getvalueof id="payMethod" idtype="String" param="element.paymentMethod">
+                                        <!-- Select the payment method. -->
+                                        <dsp:select
+                                                bean="PaymentGroupFormHandler.currentList[param:index].splitPaymentMethod">
+                                            <%@ include file="payment_select_list.jspf" %>
+                                        </dsp:select>
+
+
+                                    </dsp:getvalueof>
+                                </td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>
+                                    <!-- Preserve the listId. -->
+                                    <dsp:input bean="PaymentGroupFormHandler.listId" paramvalue="order.id"
+                                               priority="<%= (int)9 %>" type="hidden"/>
+
+                                    <!-- Set the split payment success URL. -->
+                                    <dsp:input bean="PaymentGroupFormHandler.splitPaymentInfosSuccessURL" type="hidden"
+                                               value="split_payment.jsp?init=false"/>
+                                    <!-- Submit the form to split payment infos. -->
+                                    <dsp:input bean="PaymentGroupFormHandler.splitPaymentInfos" type="submit"
+                                               value="Save"/>
+
+
+
+                                </td>
+                            </tr>
+                        </dsp:form>
+                    </dsp:oparam>
+                </dsp:droplet>
+                <dsp:include page="payment_tbl_footer.jsp" flush="true"></dsp:include>
+                <br>
+                <dsp:form formid="save" action="split_payment.jsp?init=false" method="post">
+
+                    <!-- Set the apply payment groups success URL. -->
+                    <dsp:input bean="PaymentGroupFormHandler.applyPaymentGroupsSuccessURL" type="hidden"
+                               value="orderconfirm.jsp"/>
+
+                    <!-- Submit the form to apply payment groups to order. -->
+                    <dsp:input bean="PaymentGroupFormHandler.applyPaymentGroup" type="submit" value="Continue"/>
+
+                </dsp:form>
+
+            </dsp:oparam>
+        </dsp:droplet>
+    </table>
     </BODY>
     </HTML>
 

@@ -36,70 +36,84 @@
                     <p>
                         <dsp:droplet name="Switch">
                             <dsp:param bean="CreateInvoiceRequestFormHandler.formError" name="value"/>
-                        <dsp:oparam name="true">
-                        <FONT COLOR=cc0000><STRONG>
-                            <UL>
-                                <dsp:droplet name="/atg/dynamo/droplet/ErrorMessageForEach">
-                                <dsp:param bean="CreateInvoiceRequestFormHandler.formExceptions" name="exceptions"/>
-                                <dsp:oparam name="output">
-                                <LI>
-                                        <dsp:valueof param="message"/>
-                                    </dsp:oparam>
-                                    </dsp:droplet>
-                            </UL>
-                        </STRONG></FONT>
-                        </dsp:oparam>
+                            <dsp:oparam name="true">
+                                <FONT COLOR=cc0000><STRONG>
+                                    <UL>
+                                        <dsp:droplet name="/atg/dynamo/droplet/ErrorMessageForEach">
+                                        <dsp:param bean="CreateInvoiceRequestFormHandler.formExceptions"
+                                                   name="exceptions"/>
+                                        <dsp:oparam name="output">
+                                        <LI>
+                                                <dsp:valueof param="message"/>
+                                            </dsp:oparam>
+                                            </dsp:droplet>
+                                    </UL>
+                                </STRONG></FONT>
+                            </dsp:oparam>
                         </dsp:droplet>
-
+                    </p>
                     <p>
 
                             <%-- Chapter 10, Exercise 1, Part 2: Fill in the PaymentGroupDroplet. --%>
+                        <dsp:droplet name="PaymentGroupDroplet">
+                            <dsp:param name="clearPaymentGroups" param="init"/>
+                            <dsp:param name="initPaymentGroups" param="init"/>
+                            <dsp:param name="paymentGroups" value="invoiceRequest"/>
+                            <dsp:param name="clearPaymentInfos" param="true"/>
+                            <dsp:param name="initOrderPayment" param="true"/>
+                        </dsp:droplet>
 
-
-                                <%/* Display available purchase order numbers. */%>
+                        <%/* Display available purchase order numbers. */%>
+                    </p>
                     <p>Available PO Numbers: &nbsp;
                         <dsp:droplet name="ForEach">
                             <dsp:param bean="PaymentGroupDroplet.paymentGroupMapContainer.paymentGroupMap"
                                        name="array"/>
-                        <dsp:oparam name="output">
-                            <dsp:valueof param="element.PONumber"/> &nbsp;
-                        </dsp:oparam>
+                            <dsp:oparam name="output">
+                                <dsp:valueof param="element.PONumber"/> &nbsp;
+                            </dsp:oparam>
                         </dsp:droplet>
 
 
-                                <%/* Default action is the error URL. */%>
-                        <dsp:form formid="po" action="payment_methods.jsp?init=true" method="POST">
+                        <%/* Default action is the error URL. */%>
+                    </p>
+                    <dsp:form formid="po" action="payment_methods.jsp?init=true" method="POST">
 
                         <dsp:droplet name="Switch">
+                            <!-- Check whether the current user is authorized for invoice requests. -->
+                            <dsp:param name="value" bean="Profile.invoiceRequestAuthorized"/>
 
-                        <!-- Check whether the current user is authorized for invoice requests. -->
+                            <dsp:oparam name="true">
+                                <p>Enter additional purchase order numbers you wish to use for this order.</p>
+                                <p>New PO number:
 
+                                    <!-- Set the PONumber of the invoiceRequest for the CreateInvoiceRequestFormHandler. -->
+                                    <dsp:input bean="CreateInvoiceRequestFormHandler.invoiceRequest.PONubmer"
+                                               type="text" value=""/>
+                                    <dsp:input bean="CreateInvoiceRequestFormHandler.NewInvoiceRequestSuccessURL"
+                                               type="hidden" value="payment_methods.jsp?init=false"/>
 
-                        <dsp:oparam name="true">
-                    <p>Enter additional purchase order numbers you wish to use for this order.
-                    <p>New PO number:
+                                    <!-- Submit the form and call newInvoiceRequest handle method. -->
+                                    <dsp:input bean="CreateInvoiceRequestFormHandler.newInvoiceRequest"
+                                               type="submit" value="Add"/>
 
-                        <!-- Set the PONumber of the invoiceRequest for the CreateInvoiceRequestFormHandler. -->
-
-
-                            <dsp:input bean="CreateInvoiceRequestFormHandler.NewInvoiceRequestSuccessURL" type="hidden"
-                                       value="payment_methods.jsp?init=false"/>
-
-                        <!-- Submit the form and call newInvoiceRequest handle method. -->
-
-
-                        </dsp:oparam>
-                        <dsp:oparam name="default">
-                        You are not authorized to pay by invoice.
-                        </dsp:oparam>
+                                </p>
+                            </dsp:oparam>
+                            <dsp:oparam name="default">
+                                You are not authorized to pay by invoice.
+                            </dsp:oparam>
                         </dsp:droplet>
-                        </dsp:form>
+                    </dsp:form>
 
 
-                                <%/* Go on to the next step of the purchase process. */%>
-                        <dsp:form formid="split" action="split_payment.jsp?init=true" method="POST">
+                    <%/* Go on to the next step of the purchase process. */%>
+                    <dsp:form formid="split" action="split_payment.jsp?init=true" method="POST">
                         <input type=submit value=" Continue ">
-                        </dsp:form>
+                    </dsp:form>
+                </font>
+            </td>
+        </tr>
+    </table>
 
     </BODY>
     </HTML>

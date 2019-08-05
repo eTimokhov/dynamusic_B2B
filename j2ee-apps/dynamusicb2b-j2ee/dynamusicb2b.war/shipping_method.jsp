@@ -118,12 +118,12 @@
                                                     shipping method that is applied to the current ShippingGroup.
                                                     --%>
                                                 <dsp:droplet name="AvailableShippingMethods">
-                                                    <dsp:param name="shippingGroup" bean="sGroup"/>
+                                                    <dsp:param name="shippingGroup" param="sGroup"/>
                                                     <dsp:param name="pricingModels"
                                                                bean="UserPricingModels.shippingPricingModels"/>
                                                     <dsp:param name="profile" bean="Profile"/>
                                                     <dsp:oparam name="output">
-                                                        <dsp:select bean="sGroup.shippingMethod">
+                                                        <dsp:select bean="ShoppingCart.current.ShippingGroups[param:index].shippingMethod">
                                                             <dsp:droplet name="ForEach">
                                                                 <dsp:param name="array" param="availableShippingMethods"/>
                                                                 <dsp:oparam name="output">
