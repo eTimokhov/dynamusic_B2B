@@ -30,16 +30,31 @@
                 <font face="Verdana,Geneva,Arial" color="midnightblue">
 
 
-                        <dsp:droplet name="IsEmpty">
+                    <dsp:droplet name="IsEmpty">
                         <%-- testing on the bean ShoppingCart.saved  --%>
-
-
-                    <dsp:oparam name="true">
-                    You have no saved orders.
-                    </dsp:oparam>
+                        <dsp:param name="value" bean="ShoppingCart.saved"/>
+                        <dsp:oparam name="true">
+                            You have no saved orders.
+                        </dsp:oparam>
 
                         <dsp:oparam name="false">
-                        <%-- iterate through ShoppingCart.saved and display a link to the order --%>
+                            <%-- iterate through ShoppingCart.saved and display a link to the order --%>
+                            <dsp:droplet name="ForEach">
+                                <dsp:param name="array" bean="ShoppingCart.saved"/>
+                                <dsp:oparam name="output">
+                                    <dsp:a href="saved_order.jsp">
+                                        <dsp:param name="orderId" param="element.id"/>
+                                        <dsp:valueof param="element.description"/>
+                                    </dsp:a>
+                                    Order id: <dsp:valueof param="element.id"/>
+                                    Creation date: <dsp:valueof param="element.creationDate" date="MMMM d, yyyy h:mm a"/>
+                                    <br>
+                                </dsp:oparam>
+                            </dsp:droplet>
+                        </dsp:oparam>
+                    </dsp:droplet>
+                </font>
+            </td>
 
 
             </td>

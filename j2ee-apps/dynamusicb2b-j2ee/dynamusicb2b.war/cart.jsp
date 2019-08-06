@@ -121,6 +121,13 @@
 
 
                     <%-- Chapter 11, Exercise 1: Create Save Order Form --%>
+                <dsp:form action="saved_orders.jsp">
+                    Enter a name to identify this order:
+                    <dsp:input type="text" bean="SaveOrderFormHandler.description"/>
+                    <dsp:input type="submit" bean="SaveOrderFormHandler.saveOrder" value="Save order"/>
+                    <dsp:input type="hidden" bean="SaveOrderFormHandler.saveOrderErrorURL" value="cart.jsp"/>
+                </dsp:form>
+                <p><b>Go to your <dsp:a href="saved_orders.jsp">saved orders</dsp:a></b></p>
 
             </td>
         </tr>
