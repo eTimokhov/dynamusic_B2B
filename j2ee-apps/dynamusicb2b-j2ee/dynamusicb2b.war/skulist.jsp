@@ -19,6 +19,7 @@
     <dsp:importbean bean="/atg/dynamo/droplet/Switch"/>
     <dsp:importbean bean="/atg/commerce/pricing/priceLists/ComplexPriceDroplet"/>
     <dsp:importbean bean="/atg/dynamo/droplet/For"/>
+    <dsp:importbean bean="/atg/commerce/inventory/InventoryLookup"/>
 
     <%/* This page fragment displays SKU detail. */%>
 
@@ -90,7 +91,13 @@
 
 
             <%-- Chapter 13, Exercise 2: Inventory Lookup --%>
-
+            <dsp:droplet name="InventoryLookup">
+                <dsp:param name="itemId" param="sku.repositoryId"/>
+                <dsp:param name="useCache" param="false"/>
+                <dsp:oparam name="output">
+                    <dsp:valueof param="inventoryInfo.availabilityStatusMsg"/>
+                </dsp:oparam>
+            </dsp:droplet>
 
         </dsp:oparam>
         <dsp:oparam name="empty">
