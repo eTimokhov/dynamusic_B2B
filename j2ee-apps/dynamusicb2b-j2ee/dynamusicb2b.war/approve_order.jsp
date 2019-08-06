@@ -33,42 +33,43 @@
             <!-- Page Body -->
             <td valign="top">
                 <font face="Verdana,Geneva,Arial" color="midnightblue">
-                        <dsp:include page="ApprovalFormHandlerErrorMessages.jsp" flush="false"></dsp:include><br>
+                    <dsp:include page="ApprovalFormHandlerErrorMessages.jsp" flush="false"></dsp:include><br>
                     <b>Order <dsp:valueof param="orderId">No Order</dsp:valueof></b><br>
-
-                        <%-- Get the order using OrderLookup, get the profile id of the order and display the info.
-                          regarding the buyer of the order using PersonLookup --%>
-                    <dsp:droplet name="OrderLookup">
-                        <dsp:param name="orderId" param="orderId"/>
+                </font>
+                    <%-- Get the order using OrderLookup, get the profile id of the order and display the info.
+                      regarding the buyer of the order using PersonLookup --%>
+                <dsp:droplet name="OrderLookup">
+                    <dsp:param name="orderId" param="orderId"/>
                     <dsp:oparam name="output">
-                    Order placed
-                    <dsp:valueof date="M/dd/yyyy K:mm a" param="result.submittedDate">No Submit Date</dsp:valueof>
-                    <br>
+                        Order placed
+                        <dsp:valueof date="M/dd/yyyy K:mm a" param="result.submittedDate">No Submit Date</dsp:valueof>
+                        <br>
                     </dsp:oparam>
-                    </dsp:droplet>
-                    <br>
+                </dsp:droplet>
+                <br>
 
 
-                    <dsp:form action="approvals.jsp" method="post">
+                <dsp:form action="approvals.jsp" method="post">
 
-                        <%-- Set the orderId property of the ApprovalFormHandler. --%>
-
-
-                    <b>Enter a message.</b><br>
-                        <dsp:textarea bean="ApprovalFormHandler.approverMessage" rows="7" cols="50"></dsp:textarea><p>
-                        <%-- page to be redirected if the order approval is successful --%>
-                        <dsp:input bean="ApprovalFormHandler.approveOrderSuccessURL" type="hidden"
-                                   value="approve_confirm.jsp"/>
-                        <%-- page to be redirected if the order approval fails --%>
-                        <dsp:input bean="ApprovalFormHandler.approveOrderErrorURL" type="hidden"
-                                   value="approve_order.jsp"/>
+                    <%-- Set the orderId property of the ApprovalFormHandler. --%>
+                <dsp:input type="hidden" bean="ApprovalFormHandler.orderId" paramvalue="orderId"/>
 
 
-                    <!-- Submit the form and call the approveOrder handle method. -->
+                <b>Enter a message.</b><br>
+                <dsp:textarea bean="ApprovalFormHandler.approverMessage" rows="7" cols="50"></dsp:textarea><p>
+                    <%-- page to be redirected if the order approval is successful --%>
+                    <dsp:input bean="ApprovalFormHandler.approveOrderSuccessURL" type="hidden"
+                               value="approve_confirm.jsp"/>
+                    <%-- page to be redirected if the order approval fails --%>
+                    <dsp:input bean="ApprovalFormHandler.approveOrderErrorURL" type="hidden"
+                               value="approve_order.jsp"/>
 
 
-                    <input type="submit" value="Cancel"> &nbsp;
-                    </dsp:form>
+                <!-- Submit the form and call the approveOrder handle method. -->
+                    <dsp:input type="submit" bean="ApprovalFormHandler.approveOrder" value="Approve"/>
+
+                <input type="submit" value="Cancel"> &nbsp;
+                </dsp:form>
             </td>
         </tr>
     </table>
