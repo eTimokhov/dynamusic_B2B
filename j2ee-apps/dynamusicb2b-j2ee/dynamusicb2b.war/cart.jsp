@@ -119,6 +119,7 @@
                 <br><br>
                     <%-- Chapter 7, Optional Exercise 7: Display User's Promotions --%>
 
+                <dsp:include page="CouponClaim.jsp" flush="false"/>
 
                     <%-- Chapter 11, Exercise 1: Create Save Order Form --%>
                 <dsp:form action="saved_orders.jsp">
